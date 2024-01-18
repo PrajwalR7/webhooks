@@ -2,11 +2,12 @@ import { Request, Response } from "express"
 import { v4 as uuid } from 'uuid'
 import { data, setData } from "../globals"
 import { publish } from "../utils/publish"
+import { logger } from "../utils/logger"
 
 export const postHandler = async (req: Request, res: Response) => {
     const id = uuid()
     const newData = {value: req.body.data, id}
-    console.log('New data - ', newData)
+    logger.info('New data - ', newData)
     data.push(newData)
     publish('webhook.create', newData)
     res.sendStatus(200)
